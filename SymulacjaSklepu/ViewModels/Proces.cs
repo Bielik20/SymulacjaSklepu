@@ -125,7 +125,7 @@ namespace SymulacjaSklepu.ViewModels
         public int TillPeopleAll
         {
             get { return tillPeopleAll; }
-            set { tillPeopleAll = value; OnPropertyChanged("TillPeopleAll"); }
+            set { tillPeopleAll = value; OnPropertyChanged("TillPeopleAll"); OnPropertyChanged("PercentInQueue"); }
         }
 
 
@@ -142,7 +142,7 @@ namespace SymulacjaSklepu.ViewModels
         /// <summary>
         /// Średnia liczba osób w kolejce
         /// </summary>
-        public int QueuePeopleAvr
+        public ulong QueuePeopleAvr
         {
             set { }
             get
@@ -150,7 +150,7 @@ namespace SymulacjaSklepu.ViewModels
                 if (ClockTime == 0)
                     return 0;
                 else
-                    return QueueTimeAll / ClockTime;
+                    return QueueTimeAll / Convert.ToUInt64(ClockTime);
             }
         }
         /*
@@ -169,7 +169,7 @@ namespace SymulacjaSklepu.ViewModels
         /// <summary>
         /// Średni czas spędzony w kolejce
         /// </summary>
-        public int QueueTimeAvr
+        public ulong QueueTimeAvr
         {
             set { }
             get
@@ -181,13 +181,28 @@ namespace SymulacjaSklepu.ViewModels
             }
         }
         //Liczba osób które wyszły z kolejki
-        public int QueuePeopleAll { get; set; }
+        public ulong QueuePeopleAll { get; set; }
         //Zsumowany czas spędzony w kolejce przez każdego kto w niej był.
-        private int queueTimeAll;
-        public int QueueTimeAll
+        private ulong queueTimeAll;
+        public ulong QueueTimeAll
         {
             get { return queueTimeAll; }
-            set { queueTimeAll = value; OnPropertyChanged("QueueTimeAvr"); OnPropertyChanged("QueuePeopleAvr"); OnPropertyChanged("QueuePeopleAll"); OnPropertyChanged("QueueTimeAll"); }
+            set { queueTimeAll = value; OnPropertyChanged("QueueTimeAvr"); OnPropertyChanged("QueuePeopleAvr"); OnPropertyChanged("QueuePeopleAll"); OnPropertyChanged("QueueTimeAll"); OnPropertyChanged("PercentInQueue"); }
+        }
+
+        /// <summary>
+        /// Procent ludzi którzy byli w kolejce do wszystkich obsłużonych osób
+        /// </summary>
+        public int PercentInQueue
+        {
+            set { }
+            get
+            {
+                if (TillPeopleAll == 0)
+                    return 0;
+                else
+                    return Convert.ToInt32(100 * QueuePeopleAll/ Convert.ToUInt64(TillPeopleAll));
+            }
         }
 
 
@@ -205,9 +220,8 @@ namespace SymulacjaSklepu.ViewModels
             simulationThread.IsBackground = true;
             
 
-            StartCommand = new RelayCommand(_ => simulationThread.Start(), _ => !simulationThread.IsAlive);
-            PauseCommand = new RelayCommand(_ => { simulationThread.Suspend(); }, _ => simulationThread.IsAlive);
-            ResumeCommand = new RelayCommand(_ => { simulationThread.Resume(); }, _ => simulationThread.IsAlive);
+            StartEndCommand = new RelayCommand(_ => StartStop());
+            SuspendResumeCommand = new RelayCommand(_ => { SuspendResume(); }, _ => simulationThread.IsAlive);
         }
 
         private void Initialization()
@@ -244,7 +258,7 @@ namespace SymulacjaSklepu.ViewModels
             conditionalEvents.Clear();
 
             timedEvents.Add(new InShop(3));
-            while (timedEvents.Count > 0)
+            while (timedEvents.Count > 0 && threadStarted)
             {
                 ClockTime = timedEvents[0].occurTime;
                 var _zdarzenie = timedEvents[0];
@@ -267,9 +281,48 @@ namespace SymulacjaSklepu.ViewModels
 
 
         //MARK: Commands
-        public ICommand StartCommand { get; private set; }
-        public ICommand PauseCommand { get; private set; }
-        public ICommand ResumeCommand { get; private set; }
+        public ICommand StartEndCommand { get; private set; }
+        public ICommand SuspendResumeCommand { get; private set; }
+
+
+        //MARK: HelperMethods
+        private void StartStop()
+        {
+            if (!threadStarted)
+            {
+                threadStarted = true;
+                threadRunning = true;
+                try { simulationThread.Start(); }
+                catch { MessageBox.Show("Restart is not yet avaible. If you want to restart simulation restart application."); }
+                
+            }
+            else
+            {
+                threadStarted = false;
+                threadRunning = false;
+            }
+        }
+
+        private void SuspendResume()
+        {
+            if (threadRunning)
+            {
+                simulationThread.Suspend();
+                threadRunning = false;
+            }
+            else
+            {
+                simulationThread.Resume();
+                threadRunning = true;
+            }
+        }
+
+
+        //MARK: HelperVariables
+        private bool threadStarted { get; set; }
+        private bool threadRunning { get; set; }
+
+
 
     }
 }

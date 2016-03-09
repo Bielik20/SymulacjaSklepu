@@ -30,7 +30,7 @@ namespace SymulacjaSklepu.ViewModels
         {
             createEvent(proces);
             proces.QueuePeopleAll++;
-            proces.QueueTimeAll += proces.ClockTime - enterTime;
+            proces.QueueTimeAll += Convert.ToUInt64(proces.ClockTime - enterTime);
         }
     }
 }

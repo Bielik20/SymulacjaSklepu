@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SymulacjaSklepu.Views"
         mc:Ignorable="d"
-        Title="Symulacja Sklepu" Height="350" Width="765" Background="GhostWhite">
+        Title="Symulacja Sklepu" Height="400" Width="765" Background="GhostWhite">
     <!--Namespace update  "x:Class" , "xmlns:local"-->
     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
         <StackPanel>
@@ -52,11 +52,10 @@
             </StackPanel>
             <StackPanel Background="MediumAquamarine" Margin="5 0 5 5">
                 <StackPanel Margin="5 10 5 10">
-                    <Button Content="Rozpocznij/Zakończ symulacje" Command="{Binding StartCommand}" />
+                    <Button Content="Start/End Simulation" Command="{Binding StartEndCommand}" />
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 0 0 10">
-                    <Button Content="Wstrzymaj" Command="{Binding PauseCommand}" Margin="0 0 10 0" />
-                    <Button Content="Wznów" Command="{Binding ResumeCommand}" Margin="10 0 0 0" />
+                <StackPanel  Margin="5 0 5 10">
+                    <Button Content="Suspend/Resume Simulation" Command="{Binding SuspendResumeCommand}" />
                 </StackPanel>
             </StackPanel>
         </StackPanel>
@@ -77,6 +76,9 @@
                     </StackPanel>
                     <StackPanel Margin="5">
                         <Label Content="Liczba osób w kolejce: "/>
+                    </StackPanel>
+                    <StackPanel Margin="5">
+                        <Label Content="PercentInQueue: "/>
                     </StackPanel>
                     <StackPanel Margin="5">
                         <Label Content="Średnia liczba osób w kolejce: "/>
@@ -103,11 +105,15 @@
                         <Label Content="{Binding FreeTills}" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="5">
-                        <ProgressBar Value="{Binding PeopleInQueue}" Width="200" Minimum="0" Maximum="30" />
+                        <ProgressBar Value="{Binding PeopleInQueue}" Width="200" Minimum="0" Maximum="100" />
                         <Label Content="{Binding PeopleInQueue}" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="5">
-                        <ProgressBar Value="{Binding QueuePeopleAvr}" Width="200" Minimum="0" Maximum="30" />
+                        <ProgressBar Value="{Binding PercentInQueue}" Width="200" Minimum="0" Maximum="100" />
+                        <Label Content="{Binding PercentInQueue}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="5">
+                        <ProgressBar Value="{Binding QueuePeopleAvr}" Width="200" Minimum="0" Maximum="100" />
                         <Label Content="{Binding QueuePeopleAvr}" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="5">
@@ -115,11 +121,9 @@
                         <Label Content="{Binding QueueTimeAvr}" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="5">
-                        <ProgressBar Value="{Binding QueuePeopleAll}" Width="200" Minimum="0" Maximum="500" />
                         <Label Content="{Binding QueuePeopleAll}" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="5">
-                        <ProgressBar Value="{Binding QueueTimeAll}" Width="200" Minimum="0" Maximum="500" />
                         <Label Content="{Binding QueueTimeAll}" />
                     </StackPanel>
                 </StackPanel>

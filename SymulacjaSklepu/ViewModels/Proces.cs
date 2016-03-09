@@ -119,7 +119,7 @@ namespace SymulacjaSklepu.ViewModels
 
 
         /// <summary>
-        /// Liczba osłużonych osób
+        /// Liczba obsłużonych osób
         /// </summary>
         private int tillPeopleAll;
         public int TillPeopleAll
@@ -162,17 +162,6 @@ namespace SymulacjaSklepu.ViewModels
                     return QueueTimeAll / Convert.ToUInt64(ClockTime);
             }
         }
-        /*
-        //Time when size of queue changed
-        private int lastQueueChange;
-        //Liczba osób w kolejce razy czas w niej spędzony
-        private int queueCount;
-        public int QueueCount //QueueCount += conditionalEvents.Count * (ClockTime - lastQueueChange);
-        {
-            get { return queueCount; }
-            set { queueCount = value; OnPropertyChanged("QueuePeopleAvr"); OnPropertyChanged("QueueCount"); }
-        }
-        */
 
 
         /// <summary>
@@ -186,7 +175,7 @@ namespace SymulacjaSklepu.ViewModels
                 if (QueueTimeAll == 0)
                     return 0;
                 else
-                    return QueueTimeAll / Convert.ToUInt64(TillPeopleAll); //QueuePeopleAll kiedyś
+                    return QueueTimeAll / (Convert.ToUInt64(TillPeopleAll) + Convert.ToUInt64(PeopleInQueue));
             }
         }
         //Liczba osób które wyszły z kolejki
@@ -245,9 +234,6 @@ namespace SymulacjaSklepu.ViewModels
             TillStop = 8;
             TillStart = 7;
 
-            //lastQueueChange = 0;
-            //QueueCount = 0;
-
             QueuePeopleAll = 0;
             QueueTimeAll = 0;
 
@@ -258,8 +244,6 @@ namespace SymulacjaSklepu.ViewModels
         {
             ClockTime = 0;
             FreeTills = MaxFreeTills;
-            //lastQueueChange = 0;
-            //QueueCount = 0;
             QueuePeopleAll = 0;
             QueueTimeAll = 0;
             TillPeopleAll = 0;
@@ -280,13 +264,13 @@ namespace SymulacjaSklepu.ViewModels
 
         public void BeforeQueueChanged()
         {
-            //QueueCount += conditionalEvents.Count * (ClockTime - lastQueueChange);
-            //lastQueueChange = ClockTime;
+
         }
 
         public void AfterQueueChanged()
         {
             OnPropertyChanged("PeopleInQueue");
+            OnPropertyChanged("QueueTimeAvr");
         }
 
 

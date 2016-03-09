@@ -4,27 +4,33 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SymulacjaSklepu.Views"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="Symulacja Sklepu" Height="415" Width="765" Background="GhostWhite">
+        Title="Symulacja Sklepu" Height="430" Width="1100" Background="GhostWhite" ResizeMode="CanMinimize">
     <!--Namespace update  "x:Class" , "xmlns:local"-->
-    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
+    <Window.Resources>
+        <System:Double x:Key="rightBlueFirst">170</System:Double>
+    </Window.Resources>
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
         <StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <StackPanel Background="DodgerBlue" Width="100" Margin="5">
-                    <StackPanel Margin="5">
-                        <Label Content="Liczba kas: "/>
+                <StackPanel Background="DodgerBlue" Width="200" Margin="5">
+
+                    <StackPanel Margin="5" Orientation="Horizontal">
+                        <Label FontWeight="Bold" Content="(MaxFreeTills)"/>
+                        <Label Content="Number of Tills: "/>
                     </StackPanel>
                     <StackPanel Margin="5">
-                        <Label Content="ShopStart: "/>
+                        <Label FontWeight="Bold" Content="ShopStart: "/>
                     </StackPanel>
                     <StackPanel Margin="5">
-                        <Label Content="ShopStop: "/>
+                        <Label FontWeight="Bold" Content="ShopStop: "/>
                     </StackPanel>
                     <StackPanel Margin="5">
-                        <Label Content="TillStart: "/>
+                        <Label FontWeight="Bold" Content="TillStart: "/>
                     </StackPanel>
                     <StackPanel Margin="5">
-                        <Label Content="TillStop: "/>
+                        <Label FontWeight="Bold" Content="TillStop: "/>
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Background="IndianRed" MinWidth="140" Margin="0 5 5 5">
@@ -64,36 +70,43 @@
         
         <StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <StackPanel Background="DodgerBlue" Width="200" Margin="5">
-                    <StackPanel Margin="5">
-                        <Label Content="ClockTime: "/>
+                <StackPanel Background="DodgerBlue" Width="400" Margin="5">
+                    <StackPanel Margin="5" Orientation="Horizontal">
+                        <Label Width="{StaticResource rightBlueFirst}" FontWeight="Bold" Content="ClockTime: "/>
                     </StackPanel>
-                    <StackPanel Margin="5">
-                        <Label Content="Liczba obsłużonych osób: "/>
+                    <StackPanel Margin="5" Orientation="Horizontal">
+                        <Label Width="{StaticResource rightBlueFirst}" FontWeight="Bold" Content="(TillPeopleAll)" />
+                        <Label Content="Number of served people: "/>
                     </StackPanel>
-                    <StackPanel Margin="5">
-                        <Label Content="Wolne Kasy: "/>
+                    <StackPanel Margin="5" Orientation="Horizontal">
+                        <Label Width="{StaticResource rightBlueFirst}" FontWeight="Bold" Content="(FreeTills)"/>
+                        <Label Content="Number of free tills: "/>
                     </StackPanel>
-                    <StackPanel Margin="5">
-                        <Label Content="Liczba osób w kolejce: "/>
+                    <StackPanel Margin="5" Orientation="Horizontal">
+                        <Label Width="{StaticResource rightBlueFirst}" FontWeight="Bold" Content="(conditionalEvents.Count)"/>
+                        <Label Content="Number of pepole in queue: "/>
                     </StackPanel>
-                    <StackPanel Margin="5">
-                        <Label Content="Liczba zdarzeń timedEvents: "/>
+                    <StackPanel Margin="5" Orientation="Horizontal">
+                        <Label Width="{StaticResource rightBlueFirst}" FontWeight="Bold" Content="(timedEvents.Count)"/>
+                        <Label Content="Number of timed events:"/>
                     </StackPanel>
-                    <StackPanel Margin="5">
-                        <Label Content="PercentInQueue: "/>
+                    <StackPanel Margin="5" Orientation="Horizontal">
+                        <Label Width="{StaticResource rightBlueFirst}" FontWeight="Bold" Content="(PercentInQueue)"/>
+                        <Label Content="Percents of people that were in queue:"/>
                     </StackPanel>
-                    <StackPanel Margin="5">
-                        <Label Content="Średnia liczba osób w kolejce: "/>
+                    <StackPanel Margin="5" Orientation="Horizontal">
+                        <Label Width="{StaticResource rightBlueFirst}" FontWeight="Bold" Content="(QueuePeopleAvr)"/>
+                        <Label Content="Average number of people in queue: "/>
                     </StackPanel>
-                    <StackPanel Margin="5">
-                        <Label Content="Średni czas spędzony w kolejce: "/>
+                    <StackPanel Margin="5" Orientation="Horizontal">
+                        <Label Width="{StaticResource rightBlueFirst}" FontWeight="Bold" Content="(QueueTimeAvr)"/>
+                        <Label Content="Average time spent in queue: "/>
                     </StackPanel>
-                    <StackPanel Margin="5">
-                        <Label Content="QueuePeopleAll: "/>
+                    <StackPanel  Margin="5" Orientation="Horizontal">
+                        <Label Width="{StaticResource rightBlueFirst}" FontWeight="Bold" Content="(QueuePeopleAll)"/>
                     </StackPanel>
-                    <StackPanel Margin="5">
-                        <Label Content="QueueTimeAll: "/>
+                    <StackPanel Margin="5" Orientation="Horizontal">
+                        <Label Width="{StaticResource rightBlueFirst}" FontWeight="Bold" Content="(QueueTimeAll)"/>
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Background="IndianRed" MinWidth="270" Margin="0 5 5 5">

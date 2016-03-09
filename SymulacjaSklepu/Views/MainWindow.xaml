@@ -1,0 +1,129 @@
+﻿<Window x:Class="SymulacjaSklepu.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SymulacjaSklepu.Views"
+        mc:Ignorable="d"
+        Title="Symulacja Sklepu" Height="350" Width="765" Background="GhostWhite">
+    <!--Namespace update  "x:Class" , "xmlns:local"-->
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+        <StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <StackPanel Background="DodgerBlue" Width="100" Margin="5">
+                    <StackPanel Margin="5">
+                        <Label Content="Liczba kas: "/>
+                    </StackPanel>
+                    <StackPanel Margin="5">
+                        <Label Content="ShopStart: "/>
+                    </StackPanel>
+                    <StackPanel Margin="5">
+                        <Label Content="ShopStop: "/>
+                    </StackPanel>
+                    <StackPanel Margin="5">
+                        <Label Content="TillStart: "/>
+                    </StackPanel>
+                    <StackPanel Margin="5">
+                        <Label Content="TillStop: "/>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Background="IndianRed" MinWidth="140" Margin="0 5 5 5">
+                    <StackPanel Orientation="Horizontal" Margin="5">
+                        <Slider Value="{Binding MaxWolneKasy}" Width="100" Minimum="1" Maximum="9" />
+                        <Label Content="{Binding MaxWolneKasy}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="5">
+                        <Slider Value="{Binding ShopStart}" Width="100" Minimum="1" Maximum="99" />
+                        <Label Content="{Binding ShopStart}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="5">
+                        <Slider Value="{Binding ShopStop}" Width="100" Minimum="1" Maximum="99" />
+                        <Label Content="{Binding ShopStop}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="5">
+                        <Slider Value="{Binding TillStart}" Width="100" Minimum="1" Maximum="99" />
+                        <Label Content="{Binding TillStart}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="5">
+                        <Slider Value="{Binding TillStop}" Width="100" Minimum="1" Maximum="99" />
+                        <Label Content="{Binding TillStop}" />
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Background="MediumAquamarine" Margin="5 0 5 5">
+                <StackPanel Margin="5 10 5 10">
+                    <Button Content="Rozpocznij symulacje" Command="{Binding StartCommand}" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 0 0 10">
+                    <Button Content="Wstrzymaj" Command="{Binding StartCommand}" Margin="0 0 10 0" />
+                    <Button Content="Wznów" Command="{Binding StartCommand}" Margin="10 0 0 0" />
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel Width="2" Background="Gray" Margin="4"></StackPanel>
+        
+        <StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <StackPanel Background="DodgerBlue" Width="200" Margin="5">
+                    <StackPanel Margin="5">
+                        <Label Content="ClockTime: "/>
+                    </StackPanel>
+                    <StackPanel Margin="5">
+                        <Label Content="Liczba obsłużonych osób: "/>
+                    </StackPanel>
+                    <StackPanel Margin="5">
+                        <Label Content="Wolne Kasy: "/>
+                    </StackPanel>
+                    <StackPanel Margin="5">
+                        <Label Content="Liczba osób w kolejce: "/>
+                    </StackPanel>
+                    <StackPanel Margin="5">
+                        <Label Content="Średnia liczba osób w kolejce: "/>
+                    </StackPanel>
+                    <StackPanel Margin="5">
+                        <Label Content="Średni czas spędzony w kolejce: "/>
+                    </StackPanel>
+                    <StackPanel Margin="5">
+                        <Label Content="QueuePeopleAll: "/>
+                    </StackPanel>
+                    <StackPanel Margin="5">
+                        <Label Content="QueueTimeAll: "/>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Background="IndianRed" MinWidth="270" Margin="0 5 5 5">
+                    <StackPanel Orientation="Horizontal" Margin="5">
+                        <Label Content="{Binding ClockTime}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="5">
+                        <Label Content="{Binding TillPeopleAll}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="5">
+                        <ProgressBar Value="{Binding WolneKasy}" Width="200" Minimum="0" Maximum="30" />
+                        <Label Content="{Binding WolneKasy}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="5">
+                        <ProgressBar Value="{Binding PeopleInQueue}" Width="200" Minimum="0" Maximum="30" />
+                        <Label Content="{Binding PeopleInQueue}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="5">
+                        <ProgressBar Value="{Binding QueuePeopleAvr}" Width="200" Minimum="0" Maximum="30" />
+                        <Label Content="{Binding QueuePeopleAvr}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="5">
+                        <ProgressBar Value="{Binding QueueTimeAvr}" Width="200" Minimum="0" Maximum="500" />
+                        <Label Content="{Binding QueueTimeAvr}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="5">
+                        <ProgressBar Value="{Binding QueuePeopleAll}" Width="200" Minimum="0" Maximum="500" />
+                        <Label Content="{Binding QueuePeopleAll}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="5">
+                        <ProgressBar Value="{Binding QueueTimeAll}" Width="200" Minimum="0" Maximum="500" />
+                        <Label Content="{Binding QueueTimeAll}" />
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+    </StackPanel>
+</Window>

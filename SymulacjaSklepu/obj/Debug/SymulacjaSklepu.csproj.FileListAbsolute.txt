@@ -1,0 +1,14 @@
+C:\Users\Bielik\git\SymulacjaSklepu\SymulacjaSklepu\bin\Debug\SymulacjaSklepu.exe.config
+C:\Users\Bielik\git\SymulacjaSklepu\SymulacjaSklepu\bin\Debug\SymulacjaSklepu.exe
+C:\Users\Bielik\git\SymulacjaSklepu\SymulacjaSklepu\bin\Debug\SymulacjaSklepu.pdb
+C:\Users\Bielik\git\SymulacjaSklepu\SymulacjaSklepu\obj\Debug\SymulacjaSklepu.csprojResolveAssemblyReference.cache
+C:\Users\Bielik\git\SymulacjaSklepu\SymulacjaSklepu\obj\Debug\Views\MainWindow.g.cs
+C:\Users\Bielik\git\SymulacjaSklepu\SymulacjaSklepu\obj\Debug\Views\App.g.cs
+C:\Users\Bielik\git\SymulacjaSklepu\SymulacjaSklepu\obj\Debug\SymulacjaSklepu_MarkupCompile.cache
+C:\Users\Bielik\git\SymulacjaSklepu\SymulacjaSklepu\obj\Debug\SymulacjaSklepu_MarkupCompile.lref
+C:\Users\Bielik\git\SymulacjaSklepu\SymulacjaSklepu\obj\Debug\Views\MainWindow.baml
+C:\Users\Bielik\git\SymulacjaSklepu\SymulacjaSklepu\obj\Debug\SymulacjaSklepu.g.resources
+C:\Users\Bielik\git\SymulacjaSklepu\SymulacjaSklepu\obj\Debug\SymulacjaSklepu.Properties.Resources.resources
+C:\Users\Bielik\git\SymulacjaSklepu\SymulacjaSklepu\obj\Debug\SymulacjaSklepu.csproj.GenerateResource.Cache
+C:\Users\Bielik\git\SymulacjaSklepu\SymulacjaSklepu\obj\Debug\SymulacjaSklepu.exe
+C:\Users\Bielik\git\SymulacjaSklepu\SymulacjaSklepu\obj\Debug\SymulacjaSklepu.pdb

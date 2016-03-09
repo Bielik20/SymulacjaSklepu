@@ -21,7 +21,7 @@ namespace SymulacjaSklepu.ViewModels
         public void eventOccur(Proces proces)
         {
             proces.TillPeopleAll++;
-            if (proces.conditionalEvents.Count == 0)
+            if (proces.conditionalEvents.Count == 0 || proces.FreeTills < 0)
             {
                 proces.FreeTills++;
             }

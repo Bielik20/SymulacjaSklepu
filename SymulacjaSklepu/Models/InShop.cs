@@ -27,6 +27,7 @@ namespace SymulacjaSklepu.ViewModels
             if (proces.FreeTills > 0)
             {
                 proces.FreeTills--;
+                //proces.QueuePeopleAll++; //Just trying, changing approach to averate time in queue //Cannot because of percent of people
 
                 time = proces.ClockTime + rnd.Next(proces.TillStart, proces.TillStop);
                 proces.timedEvents.Add(new OutTill(time, proces.ClockTime));

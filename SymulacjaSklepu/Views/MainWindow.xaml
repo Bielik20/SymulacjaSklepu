@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SymulacjaSklepu.Views"
         mc:Ignorable="d"
-        Title="Symulacja Sklepu" Height="400" Width="765" Background="GhostWhite">
+        Title="Symulacja Sklepu" Height="415" Width="765" Background="GhostWhite">
     <!--Namespace update  "x:Class" , "xmlns:local"-->
-    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
         <StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <StackPanel Background="DodgerBlue" Width="100" Margin="5">
@@ -78,6 +78,9 @@
                         <Label Content="Liczba osób w kolejce: "/>
                     </StackPanel>
                     <StackPanel Margin="5">
+                        <Label Content="Liczba zdarzeń timedEvents: "/>
+                    </StackPanel>
+                    <StackPanel Margin="5">
                         <Label Content="PercentInQueue: "/>
                     </StackPanel>
                     <StackPanel Margin="5">
@@ -107,6 +110,10 @@
                     <StackPanel Orientation="Horizontal" Margin="5">
                         <ProgressBar Value="{Binding PeopleInQueue}" Width="200" Minimum="0" Maximum="100" />
                         <Label Content="{Binding PeopleInQueue}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="5">
+                        <ProgressBar Value="{Binding EventsInList}" Width="200" Minimum="0" Maximum="10" />
+                        <Label Content="{Binding EventsInList}" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="5">
                         <ProgressBar Value="{Binding PercentInQueue}" Width="200" Minimum="0" Maximum="100" />

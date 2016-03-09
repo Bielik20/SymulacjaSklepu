@@ -17,7 +17,7 @@ namespace SymulacjaSklepu.ViewModels
         public int ClockTime
         {
             get { return clockTime; }
-            set { clockTime = value; OnPropertyChanged("ClockTime"); }
+            set { clockTime = value; OnPropertyChanged("ClockTime"); OnPropertyChanged("QueuePeopleAvr"); }
         }
 
 
@@ -125,7 +125,7 @@ namespace SymulacjaSklepu.ViewModels
         public int TillPeopleAll
         {
             get { return tillPeopleAll; }
-            set { tillPeopleAll = value; OnPropertyChanged("TillPeopleAll"); OnPropertyChanged("PercentInQueue"); }
+            set { tillPeopleAll = value; OnPropertyChanged("TillPeopleAll"); OnPropertyChanged("PercentInQueue"); OnPropertyChanged("QueueTimeAvr"); }
         }
 
 
@@ -136,6 +136,15 @@ namespace SymulacjaSklepu.ViewModels
         {
             set { }
             get { return conditionalEvents.Count; }
+        }
+
+        /// <summary>
+        /// Liczba timedEvents
+        /// </summary>
+        public int EventsInList
+        {
+            set { }
+            get { return timedEvents.Count; }
         }
 
 
@@ -177,7 +186,7 @@ namespace SymulacjaSklepu.ViewModels
                 if (QueueTimeAll == 0)
                     return 0;
                 else
-                    return QueueTimeAll / QueuePeopleAll;
+                    return QueueTimeAll / Convert.ToUInt64(TillPeopleAll); //QueuePeopleAll kiedyś
             }
         }
         //Liczba osób które wyszły z kolejki
@@ -187,7 +196,7 @@ namespace SymulacjaSklepu.ViewModels
         public ulong QueueTimeAll
         {
             get { return queueTimeAll; }
-            set { queueTimeAll = value; OnPropertyChanged("QueueTimeAvr"); OnPropertyChanged("QueuePeopleAvr"); OnPropertyChanged("QueuePeopleAll"); OnPropertyChanged("QueueTimeAll"); OnPropertyChanged("PercentInQueue"); }
+            set { queueTimeAll = value;  OnPropertyChanged("QueuePeopleAvr"); OnPropertyChanged("QueuePeopleAll"); OnPropertyChanged("QueueTimeAll"); OnPropertyChanged("PercentInQueue"); }
         }
 
         /// <summary>
@@ -220,7 +229,7 @@ namespace SymulacjaSklepu.ViewModels
             simulationThread.IsBackground = true;
             
 
-            StartEndCommand = new RelayCommand(_ => StartStop());
+            StartEndCommand = new RelayCommand(_ => StartStop(), _ => !simulationThread.IsAlive);
             SuspendResumeCommand = new RelayCommand(_ => { SuspendResume(); }, _ => simulationThread.IsAlive);
         }
 
@@ -230,11 +239,11 @@ namespace SymulacjaSklepu.ViewModels
             FreeTills = 3;
             MaxFreeTills = 3;
 
-            ShopStop = 5;
-            ShopStart = 1;
+            ShopStop = 4;
+            ShopStart = 2;
 
-            TillStop = 6;
-            TillStart = 3;
+            TillStop = 8;
+            TillStart = 7;
 
             //lastQueueChange = 0;
             //QueueCount = 0;
@@ -260,6 +269,7 @@ namespace SymulacjaSklepu.ViewModels
             timedEvents.Add(new InShop(3));
             while (timedEvents.Count > 0 && threadStarted)
             {
+                OnPropertyChanged("EventsInList");
                 ClockTime = timedEvents[0].occurTime;
                 var _zdarzenie = timedEvents[0];
                 timedEvents.RemoveAt(0);

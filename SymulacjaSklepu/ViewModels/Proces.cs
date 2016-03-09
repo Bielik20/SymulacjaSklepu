@@ -45,7 +45,7 @@ namespace SymulacjaSklepu.ViewModels
 
 
         //public SortedList<int, Zdarzenie> timedEvents;
-        public SortedList timedEvents = new SortedList();
+        public List<Zdarzenie> timedEvents = new List<Zdarzenie>();
         public Queue<Zdarzenie> conditionalEvents = new Queue<Zdarzenie>();
 
 
@@ -231,11 +231,11 @@ namespace SymulacjaSklepu.ViewModels
             QueueTimeAll = 0;
             TillPeopleAll = 0;
 
-            timedEvents.Add(3, new InShop());
+            timedEvents.Add(new InShop(3));
             while (timedEvents.Count > 0)
             {
-                ClockTime = Convert.ToInt32(timedEvents.GetKey(0));
-                var _zdarzenie = timedEvents.GetByIndex(0) as Zdarzenie;
+                ClockTime = timedEvents[0].occurTime;
+                var _zdarzenie = timedEvents[0];
                 timedEvents.RemoveAt(0);
                 _zdarzenie.eventOccur(this);
             }

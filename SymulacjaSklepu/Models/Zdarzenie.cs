@@ -12,5 +12,8 @@ namespace SymulacjaSklepu.ViewModels
         /// Should be raised when specific event occurs
         /// </summary>
         void eventOccur(Proces proces);
+
+        int occurTime { get; set; }
     }
+
 }

@@ -9,23 +9,17 @@ namespace SymulacjaSklepu.ViewModels
 {
     class OutTill : Zdarzenie
     {
+        public int occurTime { get; set; }
         public int enterTime { get; set; }
 
-        public OutTill(int enterTime)
+        public OutTill(int occurTime, int enterTime)
         {
+            this.occurTime = occurTime;
             this.enterTime = enterTime;
         }
 
         public void eventOccur(Proces proces)
         {
-            Random rnd1 = new Random();
-            int time1 = proces.ClockTime + rnd1.Next(proces.ShopStart, proces.ShopStop);
-            try
-            {
-                proces.timedEvents.Add(time1, new InShop());
-            }  catch { }
-
-
             proces.TillPeopleAll++;
             if (proces.conditionalEvents.Count == 0)
             {

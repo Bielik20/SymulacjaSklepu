@@ -9,6 +9,7 @@ namespace SymulacjaSklepu.ViewModels
 {
     class OutQueue : Zdarzenie
     {
+        public int occurTime { get; set; }  
         public int enterTime { get; set; }
 
         public OutQueue(int enterTime)
@@ -20,10 +21,9 @@ namespace SymulacjaSklepu.ViewModels
         {
             Random rnd = new Random();
             int time = proces.ClockTime + rnd.Next(proces.TillStart, proces.TillStop);
-            try
-            { 
-            proces.timedEvents.Add(time, new OutTill(proces.ClockTime));
-            } catch { }
+
+            proces.timedEvents.Add(new OutTill(time, proces.ClockTime));
+            proces.timedEvents = proces.timedEvents.OrderBy(x => x.occurTime).ToList();
         }
 
         public void eventOccur(Proces proces)

@@ -29,34 +29,34 @@
                 </StackPanel>
                 <StackPanel Background="IndianRed" MinWidth="140" Margin="0 5 5 5">
                     <StackPanel Orientation="Horizontal" Margin="5">
-                        <Slider Value="{Binding MaxWolneKasy}" Width="100" Minimum="1" Maximum="9" />
-                        <Label Content="{Binding MaxWolneKasy}" />
+                        <Slider Value="{Binding MaxFreeTills}" Width="100" Minimum="1" Maximum="9" />
+                        <Label Content="{Binding MaxFreeTills}" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="5">
-                        <Slider Value="{Binding ShopStart}" Width="100" Minimum="1" Maximum="99" />
+                        <Slider Value="{Binding ShopStart}" Width="100" Minimum="1" Maximum="9" />
                         <Label Content="{Binding ShopStart}" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="5">
-                        <Slider Value="{Binding ShopStop}" Width="100" Minimum="1" Maximum="99" />
+                        <Slider Value="{Binding ShopStop}" Width="100" Minimum="1" Maximum="9" />
                         <Label Content="{Binding ShopStop}" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="5">
-                        <Slider Value="{Binding TillStart}" Width="100" Minimum="1" Maximum="99" />
+                        <Slider Value="{Binding TillStart}" Width="100" Minimum="1" Maximum="9" />
                         <Label Content="{Binding TillStart}" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="5">
-                        <Slider Value="{Binding TillStop}" Width="100" Minimum="1" Maximum="99" />
+                        <Slider Value="{Binding TillStop}" Width="100" Minimum="1" Maximum="9" />
                         <Label Content="{Binding TillStop}" />
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
             <StackPanel Background="MediumAquamarine" Margin="5 0 5 5">
                 <StackPanel Margin="5 10 5 10">
-                    <Button Content="Rozpocznij symulacje" Command="{Binding StartCommand}" />
+                    <Button Content="Rozpocznij/Zakończ symulacje" Command="{Binding StartCommand}" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 0 0 10">
-                    <Button Content="Wstrzymaj" Command="{Binding StartCommand}" Margin="0 0 10 0" />
-                    <Button Content="Wznów" Command="{Binding StartCommand}" Margin="10 0 0 0" />
+                    <Button Content="Wstrzymaj" Command="{Binding PauseCommand}" Margin="0 0 10 0" />
+                    <Button Content="Wznów" Command="{Binding ResumeCommand}" Margin="10 0 0 0" />
                 </StackPanel>
             </StackPanel>
         </StackPanel>
@@ -99,8 +99,8 @@
                         <Label Content="{Binding TillPeopleAll}" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="5">
-                        <ProgressBar Value="{Binding WolneKasy}" Width="200" Minimum="0" Maximum="30" />
-                        <Label Content="{Binding WolneKasy}" />
+                        <ProgressBar Value="{Binding FreeTills}" Width="200" Minimum="0" Maximum="{Binding MaxFreeTills}" />
+                        <Label Content="{Binding FreeTills}" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="5">
                         <ProgressBar Value="{Binding PeopleInQueue}" Width="200" Minimum="0" Maximum="30" />

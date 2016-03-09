@@ -23,12 +23,13 @@ namespace SymulacjaSklepu.ViewModels
             proces.TillPeopleAll++;
             if (proces.conditionalEvents.Count == 0)
             {
-                proces.WolneKasy++;
+                proces.FreeTills++;
             }
             else
             {
                 proces.BeforeQueueChanged();
                 proces.conditionalEvents.Dequeue().eventOccur(proces);
+                proces.AfterQueueChanged();
             }
         }
     }

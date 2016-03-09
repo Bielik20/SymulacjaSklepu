@@ -24,9 +24,9 @@ namespace SymulacjaSklepu.ViewModels
             proces.timedEvents.Add(new InShop(time));
             proces.timedEvents = proces.timedEvents.OrderBy(x => x.occurTime).ToList();
 
-            if (proces.WolneKasy > 0)
+            if (proces.FreeTills > 0)
             {
-                proces.WolneKasy--;
+                proces.FreeTills--;
 
                 time = proces.ClockTime + rnd.Next(proces.TillStart, proces.TillStop);
                 proces.timedEvents.Add(new OutTill(time, proces.ClockTime));
@@ -36,6 +36,7 @@ namespace SymulacjaSklepu.ViewModels
             {
                 proces.BeforeQueueChanged();
                 proces.conditionalEvents.Enqueue(new OutQueue(proces.ClockTime));
+                proces.AfterQueueChanged();
             }
         }
 

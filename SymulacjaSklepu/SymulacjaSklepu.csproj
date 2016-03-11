@@ -58,8 +58,8 @@
     <Compile Include="Models\InShop.cs" />
     <Compile Include="Models\OutQueue.cs" />
     <Compile Include="Models\OutTill.cs" />
-    <Compile Include="ViewModels\Proces.cs" />
-    <Compile Include="Models\Zdarzenie.cs" />
+    <Compile Include="ViewModels\Process.cs" />
+    <Compile Include="Models\IZdarzenie.cs" />
     <Compile Include="RelayCommand.cs" />
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

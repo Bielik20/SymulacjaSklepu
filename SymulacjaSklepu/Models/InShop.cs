@@ -7,7 +7,7 @@ using System.Windows;
 
 namespace SymulacjaSklepu.ViewModels
 {
-    class InShop : Zdarzenie
+    class InShop : IZdarzenie
     {
         public int occurTime { get; set; }
 
@@ -16,33 +16,42 @@ namespace SymulacjaSklepu.ViewModels
             this.occurTime = occurTime;
         }
 
-        private void createEvent(Proces proces)
+        //------------------------------------------------------------------
+
+        public void ExecuteEvent(Process process)
         {
-            Random rnd = new Random();
-
-            int time = proces.ClockTime + rnd.Next(proces.ShopStart, proces.ShopStop);
-            proces.timedEvents.Add(new InShop(time));
-            proces.timedEvents = proces.timedEvents.OrderBy(x => x.occurTime).ToList();
-
-            if (proces.FreeTills > 0)
-            {
-                proces.FreeTills--;
-
-                time = proces.ClockTime + rnd.Next(proces.TillStart, proces.TillStop);
-                proces.timedEvents.Add(new OutTill(time, proces.ClockTime));
-                proces.timedEvents = proces.timedEvents.OrderBy(x => x.occurTime).ToList();
-            }     
-            else
-            {
-                proces.BeforeQueueChanged();
-                proces.conditionalEvents.Enqueue(new OutQueue(proces.ClockTime));
-                proces.AfterQueueChanged();
-            }
+            CreateInShop(process);
+            CreateNext(process);
         }
 
-        public void eventOccur(Proces proces)
+        private void CreateInShop(Process process)
         {
-            createEvent(proces);
+            Random rnd = new Random();
+            int time = process.ClockTime + rnd.Next(process.ShopStart, process.ShopStop);
+
+            process.timedEvents.Add(new InShop(time));
+            process.timedEvents = process.timedEvents.OrderBy(x => x.occurTime).ToList();
+        }
+
+        private void CreateNext(Process process)
+        {
+            if (process.FreeTills > 0)
+            {
+                Random rnd = new Random();
+                int time = process.ClockTime + rnd.Next(process.ShopStart, process.ShopStop);
+
+                process.FreeTills--;
+
+                time = process.ClockTime + rnd.Next(process.TillStart, process.TillStop);
+                process.timedEvents.Add(new OutTill(time, process.ClockTime));
+                process.timedEvents = process.timedEvents.OrderBy(x => x.occurTime).ToList();
+            }
+            else
+            {
+                process.BeforeQueueChanged();
+                process.conditionalEvents.Enqueue(new OutQueue(process.ClockTime));
+                process.AfterQueueChanged();
+            }
         }
     }
 }

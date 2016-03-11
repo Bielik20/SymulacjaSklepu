@@ -25,7 +25,7 @@ namespace SymulacjaSklepu.Views
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new Proces();
+            DataContext = new Process();
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Windows;
 
 namespace SymulacjaSklepu.ViewModels
 {
-    class OutTill : Zdarzenie
+    class OutTill : IZdarzenie
     {
         public int occurTime { get; set; }
         public int enterTime { get; set; }
@@ -18,19 +18,31 @@ namespace SymulacjaSklepu.ViewModels
             this.enterTime = enterTime;
         }
 
-        public void eventOccur(Proces proces)
+        //----------------------------------
+
+        public void ExecuteEvent(Process process)
         {
-            proces.TillPeopleAll++;
-            if (proces.conditionalEvents.Count == 0 || proces.FreeTills < 0)
+            process.TillPeopleAll++;
+            if (process.conditionalEvents.Count == 0 || process.FreeTills < 0)
             {
-                proces.FreeTills++;
+                FreeTill(process);
             }
             else
             {
-                proces.BeforeQueueChanged();
-                proces.conditionalEvents.Dequeue().eventOccur(proces);
-                proces.AfterQueueChanged();
+                Dequeue(process);
             }
+        }
+
+        private void FreeTill(Process process)
+        {
+            process.FreeTills++;
+        }
+
+        private void Dequeue(Process process)
+        {
+            process.BeforeQueueChanged();
+            process.conditionalEvents.Dequeue().ExecuteEvent(process);
+            process.AfterQueueChanged();
         }
     }
 }

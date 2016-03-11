@@ -7,7 +7,7 @@ using System.Windows;
 
 namespace SymulacjaSklepu.ViewModels
 {
-    class OutQueue : Zdarzenie
+    class OutQueue : IZdarzenie
     {
         public int occurTime { get; set; }  
         public int enterTime { get; set; }
@@ -17,20 +17,22 @@ namespace SymulacjaSklepu.ViewModels
             this.enterTime = enterTime;
         }
 
-        private void createEvent(Proces proces)
-        {
-            Random rnd = new Random();
-            int time = proces.ClockTime + rnd.Next(proces.TillStart, proces.TillStop);
+        //-------------------------------------------------
 
-            proces.timedEvents.Add(new OutTill(time, proces.ClockTime));
-            proces.timedEvents = proces.timedEvents.OrderBy(x => x.occurTime).ToList();
+        public void ExecuteEvent(Process process)
+        {
+            CreateNext(process);
+            process.QueuePeopleAll++;
+            process.QueueTimeAll += Convert.ToUInt64(process.ClockTime - enterTime);
         }
 
-        public void eventOccur(Proces proces)
+        private void CreateNext(Process process)
         {
-            createEvent(proces);
-            proces.QueuePeopleAll++;
-            proces.QueueTimeAll += Convert.ToUInt64(proces.ClockTime - enterTime);
+            Random rnd = new Random();
+            int time = process.ClockTime + rnd.Next(process.TillStart, process.TillStop);
+
+            process.timedEvents.Add(new OutTill(time, process.ClockTime));
+            process.timedEvents = process.timedEvents.OrderBy(x => x.occurTime).ToList();
         }
     }
 }

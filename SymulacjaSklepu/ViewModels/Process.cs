@@ -11,8 +11,10 @@ using System.Threading;
 
 namespace SymulacjaSklepu.ViewModels
 {
-    class Proces : ViewModelBase
+    class Process : ViewModelBase
     {
+        #region Full Properties
+
         private int clockTime;
         public int ClockTime
         {
@@ -47,11 +49,6 @@ namespace SymulacjaSklepu.ViewModels
                 OnPropertyChanged("MaxFreeTills");
             }
         }
-
-
-        //public SortedList<int, Zdarzenie> timedEvents;
-        public List<Zdarzenie> timedEvents = new List<Zdarzenie>();
-        public Queue<Zdarzenie> conditionalEvents = new Queue<Zdarzenie>();
 
 
         //Przedział czasowy do pojawienia się następnego klienta
@@ -129,6 +126,17 @@ namespace SymulacjaSklepu.ViewModels
         }
 
 
+        #endregion
+
+
+        //public SortedList<int, Zdarzenie> timedEvents;
+        public List<IZdarzenie> timedEvents = new List<IZdarzenie>();
+        public Queue<IZdarzenie> conditionalEvents = new Queue<IZdarzenie>();
+
+
+        #region Wierd Things
+
+
         /// <summary>
         /// Liczba osób w kolejce
         /// </summary>
@@ -203,6 +211,8 @@ namespace SymulacjaSklepu.ViewModels
             }
         }
 
+        #endregion
+
 
         //-------------------------------------------------
 
@@ -211,7 +221,7 @@ namespace SymulacjaSklepu.ViewModels
         //Defines if you should continue simulation
         public int temp = 0;
 
-        public Proces()
+        public Process()
         {
             Initialization();
             simulationThread = new Thread(new ThreadStart(Simulation));
@@ -257,7 +267,7 @@ namespace SymulacjaSklepu.ViewModels
                 ClockTime = timedEvents[0].occurTime;
                 var _zdarzenie = timedEvents[0];
                 timedEvents.RemoveAt(0);
-                _zdarzenie.eventOccur(this);
+                _zdarzenie.ExecuteEvent(this);
             }
             MessageBox.Show("End");
         }

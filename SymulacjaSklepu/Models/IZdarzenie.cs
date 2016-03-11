@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace SymulacjaSklepu.ViewModels
 {
-    interface Zdarzenie
+    interface IZdarzenie
     {
         /// <summary>
         /// Should be raised when specific event occurs
         /// </summary>
-        void eventOccur(Proces proces);
+        void ExecuteEvent(Process proces);
 
         int occurTime { get; set; }
     }

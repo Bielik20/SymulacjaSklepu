@@ -9,12 +9,16 @@ namespace SymulacjaSklepu.ViewModels
 {
     class InShop : IZdarzenie
     {
+        #region Initialization
+
         public int occurTime { get; set; }
 
         public InShop(int occurTime)
         {
             this.occurTime = occurTime;
         }
+
+        #endregion
 
         //------------------------------------------------------------------
 
@@ -37,21 +41,29 @@ namespace SymulacjaSklepu.ViewModels
         {
             if (process.FreeTills > 0)
             {
-                Random rnd = new Random();
-                int time = process.ClockTime + rnd.Next(process.ShopStart, process.ShopStop);
-
-                process.FreeTills--;
-
-                time = process.ClockTime + rnd.Next(process.TillStart, process.TillStop);
-                process.timedEvents.Add(new OutTill(time, process.ClockTime));
-                process.timedEvents = process.timedEvents.OrderBy(x => x.occurTime).ToList();
+                OccupyTill(process);
             }
             else
             {
-                process.BeforeQueueChanged();
-                process.conditionalEvents.Enqueue(new OutQueue(process.ClockTime));
-                process.AfterQueueChanged();
+                Dequeue(process);   
             }
+        }
+
+        private void OccupyTill(Process process)
+        {
+            process.FreeTills--;
+
+            Random rnd = new Random();
+            int time = process.ClockTime + rnd.Next(process.TillStart, process.TillStop);
+            process.timedEvents.Add(new OutTill(time, process.ClockTime));
+            process.timedEvents = process.timedEvents.OrderBy(x => x.occurTime).ToList();
+        }
+
+        private void Dequeue(Process process)
+        {
+            process.BeforeQueueChanged();
+            process.conditionalEvents.Enqueue(new OutQueue(process.ClockTime));
+            process.AfterQueueChanged();
         }
     }
 }

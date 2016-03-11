@@ -125,17 +125,10 @@ namespace SymulacjaSklepu.ViewModels
             set { tillPeopleAll = value; OnPropertyChanged("TillPeopleAll"); OnPropertyChanged("PercentInQueue"); OnPropertyChanged("QueueTimeAvr"); }
         }
 
-
         #endregion
 
 
-        //public SortedList<int, Zdarzenie> timedEvents;
-        public List<IZdarzenie> timedEvents = new List<IZdarzenie>();
-        public Queue<IZdarzenie> conditionalEvents = new Queue<IZdarzenie>();
-
-
         #region Wierd Things
-
 
         /// <summary>
         /// Liczba osób w kolejce
@@ -155,7 +148,6 @@ namespace SymulacjaSklepu.ViewModels
             get { return timedEvents.Count; }
         }
 
-
         /// <summary>
         /// Średnia liczba osób w kolejce
         /// </summary>
@@ -170,7 +162,6 @@ namespace SymulacjaSklepu.ViewModels
                     return QueueTimeAll / Convert.ToUInt64(ClockTime);
             }
         }
-
 
         /// <summary>
         /// Średni czas spędzony w kolejce
@@ -214,53 +205,79 @@ namespace SymulacjaSklepu.ViewModels
         #endregion
 
 
+        #region Properties
+
+        public List<IZdarzenie> timedEvents { get; set; } = new List<IZdarzenie>();
+        public Queue<IZdarzenie> conditionalEvents { get; set; } = new Queue<IZdarzenie>();
+
+        private Thread simulationThread { get; set; }
+
+        //MARK: Helpers (indicators)
+        private bool threadStarted { get; set; }
+        private bool threadRunning { get; set; }
+
+        #endregion
+
+
+        #region Commands
+
+        public ICommand StartEndCommand { get; private set; }
+        public ICommand SuspendResumeCommand { get; private set; }
+
+        #endregion
+
+
         //-------------------------------------------------
 
 
-        Thread simulationThread;
-        //Defines if you should continue simulation
-        public int temp = 0;
+        #region Initialization
 
         public Process()
         {
             Initialization();
-            simulationThread = new Thread(new ThreadStart(Simulation));
-            simulationThread.IsBackground = true;
-            
 
-            StartEndCommand = new RelayCommand(_ => StartStop(), _ => !simulationThread.IsAlive);
-            SuspendResumeCommand = new RelayCommand(_ => { SuspendResume(); }, _ => simulationThread.IsAlive);
+            StartEndCommand = new RelayCommand(_ => StartStop());
+            SuspendResumeCommand = new RelayCommand(_ => { SuspendResume(); }, _ => threadStarted);
         }
 
         private void Initialization()
         {
-            ClockTime = 0;
-            FreeTills = 3;
-            MaxFreeTills = 3;
-
             ShopStop = 4;
             ShopStart = 2;
 
             TillStop = 8;
             TillStart = 7;
+            
+            MaxFreeTills = 3;
 
-            QueuePeopleAll = 0;
-            QueueTimeAll = 0;
+            threadStarted = false;
+            threadRunning = false;
 
-            TillPeopleAll = 0;
+            ResetVariables();
         }
 
-        public void Simulation()
+        private void ResetVariables()
         {
             ClockTime = 0;
             FreeTills = MaxFreeTills;
+
             QueuePeopleAll = 0;
             QueueTimeAll = 0;
             TillPeopleAll = 0;
+        }
+
+        #endregion
+
+
+        #region Process Methods
+
+        public void Simulation()
+        {
+            ResetVariables();
             timedEvents.RemoveAll(_ => true);
             conditionalEvents.Clear();
+            timedEvents.Add(new InShop(0));
 
-            timedEvents.Add(new InShop(3));
             while (timedEvents.Count > 0 && threadStarted)
             {
                 OnPropertyChanged("EventsInList");
@@ -269,39 +286,26 @@ namespace SymulacjaSklepu.ViewModels
                 timedEvents.RemoveAt(0);
                 _zdarzenie.ExecuteEvent(this);
             }
-            MessageBox.Show("End");
+
+            MessageBox.Show("End of the simulation");
         }
 
-        public void BeforeQueueChanged()
-        {
-
-        }
-
-        public void AfterQueueChanged()
-        {
-            OnPropertyChanged("PeopleInQueue");
-            OnPropertyChanged("QueueTimeAvr");
-        }
-
-
-        //MARK: Commands
-        public ICommand StartEndCommand { get; private set; }
-        public ICommand SuspendResumeCommand { get; private set; }
-
-
-        //MARK: HelperMethods
         private void StartStop()
         {
             if (!threadStarted)
             {
+                simulationThread = new Thread(new ThreadStart(Simulation));
+                simulationThread.IsBackground = true;
+
                 threadStarted = true;
                 threadRunning = true;
-                try { simulationThread.Start(); }
-                catch { MessageBox.Show("Restart is not yet avaible. If you want to restart simulation restart application."); }
-                
+                simulationThread.Start(); 
             }
             else
             {
+                if (!threadRunning)
+                    simulationThread.Resume(); //Makes sure that process will escape while loop and display MessageBox
+
                 threadStarted = false;
                 threadRunning = false;
             }
@@ -321,12 +325,22 @@ namespace SymulacjaSklepu.ViewModels
             }
         }
 
-
-        //MARK: HelperVariables
-        private bool threadStarted { get; set; }
-        private bool threadRunning { get; set; }
+        #endregion
 
 
+        #region Event Menagement Methods
 
+        public void BeforeQueueChanged()
+        {
+
+        }
+
+        public void AfterQueueChanged()
+        {
+            OnPropertyChanged("PeopleInQueue");
+            OnPropertyChanged("QueueTimeAvr");
+        }
+
+        #endregion
     }
 }

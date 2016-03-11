@@ -9,6 +9,8 @@ namespace SymulacjaSklepu.ViewModels
 {
     class OutQueue : IZdarzenie
     {
+        #region Initialization
+
         public int occurTime { get; set; }  
         public int enterTime { get; set; }
 
@@ -17,13 +19,14 @@ namespace SymulacjaSklepu.ViewModels
             this.enterTime = enterTime;
         }
 
+        #endregion
+
         //-------------------------------------------------
 
         public void ExecuteEvent(Process process)
         {
             CreateNext(process);
-            process.QueuePeopleAll++;
-            process.QueueTimeAll += Convert.ToUInt64(process.ClockTime - enterTime);
+            RegisterQueuePeopleAndTime(process);
         }
 
         private void CreateNext(Process process)
@@ -33,6 +36,12 @@ namespace SymulacjaSklepu.ViewModels
 
             process.timedEvents.Add(new OutTill(time, process.ClockTime));
             process.timedEvents = process.timedEvents.OrderBy(x => x.occurTime).ToList();
+        }
+
+        private void RegisterQueuePeopleAndTime(Process process)
+        {
+            process.QueuePeopleAll++;
+            process.QueueTimeAll += Convert.ToUInt64(process.ClockTime - enterTime);
         }
     }
 }

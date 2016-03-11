@@ -9,6 +9,8 @@ namespace SymulacjaSklepu.ViewModels
 {
     class OutTill : IZdarzenie
     {
+        #region Initialization
+
         public int occurTime { get; set; }
         public int enterTime { get; set; }
 
@@ -18,6 +20,8 @@ namespace SymulacjaSklepu.ViewModels
             this.enterTime = enterTime;
         }
 
+        #endregion
+
         //----------------------------------
 
         public void ExecuteEvent(Process process)
@@ -25,7 +29,7 @@ namespace SymulacjaSklepu.ViewModels
             process.TillPeopleAll++;
             if (process.conditionalEvents.Count == 0 || process.FreeTills < 0)
             {
-                FreeTill(process);
+                ReleaseTill(process);
             }
             else
             {
@@ -33,7 +37,7 @@ namespace SymulacjaSklepu.ViewModels
             }
         }
 
-        private void FreeTill(Process process)
+        private void ReleaseTill(Process process)
         {
             process.FreeTills++;
         }

@@ -26,27 +26,12 @@ namespace SymulacjaSklepu.ViewModels
 
         public void ExecuteEvent(Process process)
         {
-            process.TillPeopleAll++;
-            if (process.conditionalEvents.Count == 0 || process.FreeTills < 0)
-            {
-                ReleaseTill(process);
-            }
-            else
-            {
-                Dequeue(process);
-            }
-        }
+            process.RegisterServedPeopleAndReleaseTill();
 
-        private void ReleaseTill(Process process)
-        {
-            process.FreeTills++;
-        }
-
-        private void Dequeue(Process process)
-        {
-            process.BeforeQueueChanged();
-            process.conditionalEvents.Dequeue().ExecuteEvent(process);
-            process.AfterQueueChanged();
+            if (process.conditionalEvents.Count > 0 && process.FreeTills > 0)
+            {
+                process.ExecuteOutQueue();
+            }
         }
     }
 }

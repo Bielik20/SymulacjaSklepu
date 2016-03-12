@@ -19,7 +19,7 @@ namespace SymulacjaSklepu.ViewModels
         public int ClockTime
         {
             get { return clockTime; }
-            set { clockTime = value; OnPropertyChanged("ClockTime"); OnPropertyChanged("QueuePeopleAvr"); }
+            private set { clockTime = value; OnPropertyChanged("ClockTime"); OnPropertyChanged("QueuePeopleAvr"); }
         }
 
 
@@ -45,6 +45,10 @@ namespace SymulacjaSklepu.ViewModels
             set
             {
                 FreeTills += value - maxFreeTills;
+                //for (int i = 0; i < FreeTills; i++)
+                    //if(conditionalEvents.Count > 0)
+                        //ExecuteOutQueue();
+
                 maxFreeTills = value;
                 OnPropertyChanged("MaxFreeTills");
             }
@@ -122,7 +126,7 @@ namespace SymulacjaSklepu.ViewModels
         public int TillPeopleAll
         {
             get { return tillPeopleAll; }
-            set { tillPeopleAll = value; OnPropertyChanged("TillPeopleAll"); OnPropertyChanged("PercentInQueue"); OnPropertyChanged("QueueTimeAvr"); }
+            private set { tillPeopleAll = value; OnPropertyChanged("TillPeopleAll"); OnPropertyChanged("PercentInQueue"); OnPropertyChanged("QueueTimeAvr"); }
         }
 
         #endregion
@@ -211,6 +215,7 @@ namespace SymulacjaSklepu.ViewModels
         public Queue<IZdarzenie> conditionalEvents { get; set; } = new Queue<IZdarzenie>();
 
         private Thread simulationThread { get; set; }
+        private Random rnd { get; set; } = new Random();
 
         //MARK: Helpers (indicators)
         private bool threadStarted { get; set; }
@@ -242,11 +247,11 @@ namespace SymulacjaSklepu.ViewModels
 
         private void Initialization()
         {
-            ShopStop = 4;
-            ShopStart = 2;
+            ShopStop = 5;
+            ShopStart = 1;
 
-            TillStop = 8;
-            TillStart = 7;
+            TillStop = 9;
+            TillStart = 6;
             
             MaxFreeTills = 3;
 
@@ -330,15 +335,58 @@ namespace SymulacjaSklepu.ViewModels
 
         #region Event Menagement Methods
 
-        public void BeforeQueueChanged()
+        private void BeforeQueueChanged()
         {
 
         }
 
-        public void AfterQueueChanged()
+        private void AfterQueueChanged()
         {
             OnPropertyChanged("PeopleInQueue");
             OnPropertyChanged("QueueTimeAvr");
+        }
+
+        public void CreateOutTill()
+        {
+            FreeTills--;
+
+            int time = ClockTime + rnd.Next(TillStart, TillStop);
+            timedEvents.Add(new OutTill(time, ClockTime));
+            timedEvents = timedEvents.OrderBy(x => x.occurTime).ToList();
+        }
+
+        public void CreateOutQueue()
+        {
+            BeforeQueueChanged();
+            conditionalEvents.Enqueue(new OutQueue(ClockTime));
+            AfterQueueChanged();
+        }
+
+        public void ExecuteOutQueue()
+        {
+            BeforeQueueChanged();
+            conditionalEvents.Dequeue().ExecuteEvent(this);
+            AfterQueueChanged();
+        }
+
+        public void CreateInShop()
+        {
+            int time = ClockTime + rnd.Next(ShopStart, ShopStop);
+
+            timedEvents.Add(new InShop(time));
+            timedEvents = timedEvents.OrderBy(x => x.occurTime).ToList();
+        }
+
+        public void RegisterQueuePeopleAndTime(int enterTime)
+        {
+            QueuePeopleAll++;
+            QueueTimeAll += Convert.ToUInt64(ClockTime - enterTime);
+        }
+
+        public void RegisterServedPeopleAndReleaseTill()
+        {
+            TillPeopleAll++;
+            FreeTills++;
         }
 
         #endregion

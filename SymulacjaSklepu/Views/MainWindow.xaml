@@ -137,7 +137,7 @@
                         <Label Content="{Binding QueuePeopleAvr}" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="5">
-                        <ProgressBar Value="{Binding QueueTimeAvr}" Width="200" Minimum="0" Maximum="500" />
+                        <ProgressBar Value="{Binding QueueTimeAvr}" Width="200" Minimum="0" />
                         <Label Content="{Binding QueueTimeAvr}" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="5">
